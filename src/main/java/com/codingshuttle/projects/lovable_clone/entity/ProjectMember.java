@@ -1,5 +1,6 @@
 package com.codingshuttle.projects.lovable_clone.entity;
 
+import com.codingshuttle.projects.lovable_clone.enums.ProjectRole;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,23 +8,20 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
 
-
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProjectFile {
+public class ProjectMember {
 
-Long id;
+ProjectMemberId id;
 
 Project project;
+User user;
 
-String path;
-String minioObjectKey;
+ProjectRole projectRole;
 
-Instant createdAt;
-Instant updatedAt;
-User createdBy;
-User updatedBy;
+Instant invitedAt;
 
+Instant acceptedAt;
 
 }

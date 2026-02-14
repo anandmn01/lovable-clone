@@ -11,19 +11,18 @@ import java.time.Instant;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProjectFile {
 
-Long id;
+public class ChatSession {
 
-Project project;
+    Project project;
 
-String path;
-String minioObjectKey;
+    User user;
+    String title;
 
-Instant createdAt;
-Instant updatedAt;
-User createdBy;
-User updatedBy;
+    Instant createdAt;
 
+    Instant updatedAt;
+
+    Instant deletedAt;
 
 }
