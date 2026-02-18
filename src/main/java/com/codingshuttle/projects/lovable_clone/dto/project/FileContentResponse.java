@@ -1,6 +1,7 @@
 package com.codingshuttle.projects.lovable_clone.dto.project;
 
-public class FileContentResponse (
-
+public record FileContentResponse (
+ String path,
+ String content
 ){
 }
