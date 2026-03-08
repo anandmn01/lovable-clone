@@ -1,4 +1,13 @@
 spring:
   application:
     name: lovable-clone
-    description : This is project on lovable clone
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/student_db
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
