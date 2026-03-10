@@ -6,11 +6,7 @@ import com.codingshuttle.projects.lovable_clone.dto.subscription.UsageTodayRespo
 public interface UsageService {
 
 
-    default UsageTodayResponse getTodayUsageOfUser(Long userId) {
-        return null;
-    }
+     UsageTodayResponse getTodayUsageOfUser(Long userId);
 
-    public default PlanLimitsResponse getCurrentSubscriptionLimitsOfUser(Long userId) {
-        return null;
-    }
+    PlanLimitsResponse getCurrentSubscriptionLimitsOfUser(Long userId);
 }
