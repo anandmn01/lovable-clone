@@ -30,7 +30,7 @@ public class ProjectController {
     public ResponseEntity<ProjectResponse>getProjectById(@PathVariable String id){
         Long userId=1L;
 
-   return ResponseEntity.ok(projectService.getUserProjectById(id,userId));
+   return ResponseEntity.ok(projectService.getUserProjectById(Long.valueOf(id),userId));
  }
 @PostMapping
 

@@ -15,9 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -55,20 +54,47 @@ public class ProjectServiceImpl implements ProjectService {
         return projectMapper.toListOfProjectSummaryResponse(projects);
     }
 
-    @Override
-    public ProjectResponse getUserProjectById(String id, Long userId) {
 
-        return null;
+    @Override
+    public ProjectResponse getUserProjectById(Long id, Long userId) {
+
+        Project project = getAccessibleProjectById(id,userId);
+        return projectMapper.toProjectResponse(project);
     }
 
 
     @Override
     public ProjectResponse updateProject(Long id, ProjectRequest request, Long userId) {
-        return null;
+        Project project = getAccessibleProjectById(id,userId);
+
+        if(!project.getOwner().getId().equals(userId)){
+            throw new RuntimeException("You are not allowed to update the project");
+        }
+
+
+        project.setName(request.name());
+        project= projectRepository.save(project);
+        return projectMapper.toProjectResponse(project);
     }
 
     @Override
     public void softDelete(Long id, Long userId) {
 
+        Project project = getAccessibleProjectById(id,userId);
+
+        if(!project.getOwner().getId().equals(userId)){
+            throw new RuntimeException("You are not allowed to delete the project");
+        }
+
+        project.setDeletedAt(Instant.now());
+        projectRepository.save(project);
+    }
+
+
+
+    /// Internal functions when we are using the same line again and again then it would be better to use functions like below :
+
+    public Project getAccessibleProjectById(Long projectId,Long userId){
+        return projectRepository.findAccessibleProjectById(projectId,userId).orElseThrow();
     }
 }
