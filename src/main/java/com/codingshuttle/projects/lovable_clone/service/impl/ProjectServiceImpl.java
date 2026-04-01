@@ -5,6 +5,7 @@ import com.codingshuttle.projects.lovable_clone.dto.project.ProjectResponse;
 import com.codingshuttle.projects.lovable_clone.dto.project.ProjectSummaryResponse;
 import com.codingshuttle.projects.lovable_clone.entity.Project;
 import com.codingshuttle.projects.lovable_clone.entity.User;
+import com.codingshuttle.projects.lovable_clone.error.ResourceNotFoundException;
 import com.codingshuttle.projects.lovable_clone.mapper.ProjectMapper;
 import com.codingshuttle.projects.lovable_clone.repository.ProjectRepository;
 import com.codingshuttle.projects.lovable_clone.repository.UserRepository;
@@ -95,6 +96,6 @@ public class ProjectServiceImpl implements ProjectService {
     /// Internal functions when we are using the same line again and again then it would be better to use functions like below :
 
     public Project getAccessibleProjectById(Long projectId,Long userId){
-        return projectRepository.findAccessibleProjectById(projectId,userId).orElseThrow();
+        return projectRepository.findAccessibleProjectById(projectId,userId).orElseThrow(() -> new ResourceNotFoundException("project",projectId.toString()));
     }
 }
