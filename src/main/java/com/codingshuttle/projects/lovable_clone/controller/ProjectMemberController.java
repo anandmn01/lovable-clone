@@ -3,6 +3,7 @@ import com.codingshuttle.projects.lovable_clone.dto.member.InviteMemberRequest;
 import com.codingshuttle.projects.lovable_clone.dto.member.MemberResponse;
 import com.codingshuttle.projects.lovable_clone.dto.member.UpdateMemberRoleRequest;
 import com.codingshuttle.projects.lovable_clone.entity.ProjectMember;
+import com.codingshuttle.projects.lovable_clone.security.AuthUtil;
 import com.codingshuttle.projects.lovable_clone.service.ProjectMemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,12 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectMemberController {
 
     private final ProjectMemberService projectMemberService;
+   private final AuthUtil authUtil;
 
   @GetMapping
  public ResponseEntity<List<MemberResponse>> getProjectMembers(@PathVariable Long projectId){
-      Long userId=1L;
-      return ResponseEntity.ok((List<MemberResponse>) projectMemberService.getProjectMembers(projectId,userId));
+      Long userId = authUtil.getCurrentUserId();
+      return ResponseEntity.ok(projectMemberService.getProjectMembers(projectId));
   }
 
  @PostMapping
@@ -31,9 +33,9 @@ public class ProjectMemberController {
          @PathVariable Long projectId,
          @RequestBody @Valid InviteMemberRequest request
          ){
-     Long userId=1L;
+     Long userId = authUtil.getCurrentUserId();
      return ResponseEntity.status(HttpStatus.CREATED).body(
-             (MemberResponse) projectMemberService.inviteMember(projectId ,request,userId));
+             (MemberResponse) projectMemberService.inviteMember(projectId ,request));
  }
 
  @PatchMapping("/{memberId}")
@@ -42,8 +44,8 @@ public class ProjectMemberController {
          @PathVariable Long projectId,
          @PathVariable Long memberId,
          @RequestBody @Valid UpdateMemberRoleRequest request){
-      Long userId=1L;
-      return ResponseEntity.ok(projectMemberService.updateMemberRole(projectId,memberId,request,userId));
+     Long userId = authUtil.getCurrentUserId();
+      return ResponseEntity.ok(projectMemberService.updateMemberRole(projectId,memberId,request));
  }
 
     @DeleteMapping("/{memberId}")
@@ -51,7 +53,7 @@ public class ProjectMemberController {
 
             @PathVariable Long projectId,
             @PathVariable Long memberId){
-        Long userId=1L;
+        Long userId = authUtil.getCurrentUserId();
         projectMemberService.removeProjectMember(projectId,memberId,userId);
         return ResponseEntity.noContent().build();
     }

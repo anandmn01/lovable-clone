@@ -14,7 +14,6 @@ import com.codingshuttle.projects.lovable_clone.security.AuthUtil;
 import com.codingshuttle.projects.lovable_clone.service.ProjectMemberService;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -94,9 +93,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     }
 
     @Override
-    public void removeProjectMember(Long projectId, Long memberId) {
-
-        Long userId = authUtil.getCurrentUserId();
+    public void removeProjectMember(Long projectId, Long memberId, Long userId) {
         Project project= getAccessibleProjectById(projectId,userId);
 
         ProjectMemberId projectMemberId = new ProjectMemberId(projectId,memberId);
